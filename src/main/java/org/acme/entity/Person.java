@@ -1,7 +1,7 @@
 package org.acme.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.*;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

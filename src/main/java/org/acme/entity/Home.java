@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "home")
+@Table(name = "home", indexes = @Index(columnList = "address"))
 @NoArgsConstructor
 public class Home extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
+    @Column(columnDefinition = "int default 2000")
     public int year;
     public String address;
 
