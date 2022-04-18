@@ -9,10 +9,29 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.util.List;
 
 @Path("/person")
 public class PersonController {
     private static final Logger logger = Logger.getLogger(ApartmentController.class);
+
+    @GET
+    @Produces("application/json")
+    public Response get() {
+        List<Person> people = Person.listAll();
+        return Response.ok(people).build();
+
+    }
+
+    @GET
+    @Path("{query}")
+    @Produces("application/json")
+    public Response get(@PathParam("query") String query) {
+        List<Person> people = Person.findByQuery(query);
+
+        return Response.ok(people).build();
+    }
+
 
     @GET
     @Path("{id}")

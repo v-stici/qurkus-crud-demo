@@ -2,11 +2,11 @@ package org.acme.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.*;
-import org.jboss.logging.Logger;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -19,6 +19,8 @@ public class Home extends PanacheEntityBase {
 
     @Column(columnDefinition = "int default 2000")
     public int year;
+
+    @Column(unique = true)
     public String address;
 
     @OneToMany(mappedBy = "home", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,5 +41,22 @@ public class Home extends PanacheEntityBase {
                 ", address='" + address + '\'' +
                 ", Apartment {" + "size='" + apartments.size() +
                 "'}}";
+    }
+
+    //TODO: Refactor this shit
+    public static List<HashMap<String, Object>> getHouses() {
+        List<HashMap<String, Object>> houses = new ArrayList<>();
+        for (PanacheEntityBase home : Home.listAll()) {
+            houses.add(((Home) home).getHashHome());
+        }
+        return houses;
+    }
+
+    public HashMap<String, Object> getHashHome() {
+        return new HashMap<>() {{
+            put("id", id);
+            put("year", year);
+            put("address", address);
+        }};
     }
 }

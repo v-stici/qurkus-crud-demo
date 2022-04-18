@@ -4,6 +4,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +23,14 @@ public class Person extends PanacheEntityBase {
     @JoinColumn(name = "apartment_id")
     public Apartment apartment;
 
+    public static List<Person> findByQuery(String query) {
+        return Person.listAll().stream().
+                map(p -> (Person) p)
+                .filter(person ->
+                        query.contains(person.name) ||
+                        query.contains(person.lastName))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public String toString() {

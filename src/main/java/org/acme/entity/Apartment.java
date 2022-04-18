@@ -29,7 +29,6 @@ public class Apartment extends PanacheEntityBase {
     @JsonIgnore
     public List<Person> locatari = new ArrayList<>();
 
-
     @Override
     public String toString() {
         return "Apartment{" +
